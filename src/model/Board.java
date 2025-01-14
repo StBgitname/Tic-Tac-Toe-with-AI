@@ -28,9 +28,12 @@ public class Board {
      * @return true, wenn der Zug gültig ist; false, wenn das Feld bereits belegt ist.
      */
     public boolean makeMove(int row, int col, char playerSymbol) {
-        if (board[row][col] == ' ') {
-            board[row][col] = playerSymbol;
-            return true;
+
+        if (row >= 0 && row <= 2 && col >= 0 && col <= 2) {     // gültige Eingabewerte?
+            if (board[row][col] == ' ') {       // Ist das Feld noch frei?
+                board[row][col] = playerSymbol;
+                return true;
+            }
         }
         return false;
     }

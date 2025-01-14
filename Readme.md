@@ -13,3 +13,5 @@ This is a small project to get acquainted with the Q-Learning algorithm.
 
 - GUI
 - training of the AI by a teacher agent
+- compare Board states to account for mirrored and rotated states
+  (This would greatly reduce the size of the stored data)

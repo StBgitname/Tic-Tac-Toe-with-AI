@@ -6,6 +6,7 @@ import view.GameView;
 import ai.TicTacToeAI;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,19 +45,21 @@ public class GameController {
     public void startGame() {
         Scanner scanner = new Scanner(System.in);
         Player currentPlayer = humanPlayer; // Der Mensch beginnt immer.
+        view.displayBoard(board);
 
         while (true) {
-            view.displayBoard(board);
+//            view.displayBoard(board);
             if (currentPlayer == humanPlayer) {
                 // Menschlicher Spieler macht einen Zug.
-                view.displayMessage("Dein Zug (Reihe und Spalte eingeben, z.B. 0 1):");
-                int row = scanner.nextInt();
-                int col = scanner.nextInt();
+                int[] zug = playerInput(scanner, view);
+                int row = zug[0];
+                int col = zug[1];
 
                 if (board.makeMove(row, col, currentPlayer.getSymbol())) {
+                    view.displayBoard(board);
                     if (board.checkWin(currentPlayer.getSymbol())) {
                         propagateRewards(-1.0);  // negative Belohnung
-                        view.displayBoard(board);
+//                        view.displayBoard(board);
                         view.displayMessage("Herzlichen Glückwunsch, du hast gewonnen!");
                         break;
                     }
@@ -72,6 +75,7 @@ public class GameController {
                 int col = move % 3;
 
                 if (board.makeMove(row, col, currentPlayer.getSymbol())) {  // liefert false, wenn der Zug ungültig ist
+                    view.displayBoard(board);
                     // speichert Zustand und Zug in der history
                     stateHistory.add(state);
                     moveHistory.add(move);
@@ -97,6 +101,29 @@ public class GameController {
         ai.saveQTable("qtable.csv");   // Q-Werte in Datei speichern
         scanner.close(); // Scanner schließen
     }
+
+
+    private static int[] playerInput(Scanner scanner, GameView view) {
+        while (true) {
+            try {
+                view.displayMessage("Dein Zug (Reihe und Spalte eingeben, z.B. 0 1):");
+                int row = scanner.nextInt();
+                int col = scanner.nextInt();
+
+                if (row < 0 || col < 0 || row > 2 || col > 2) {
+                    throw new IllegalArgumentException("Die Eingabe muss zwischen 0 und 2 liegen.");
+                }
+
+                return new int[] {row, col};
+            } catch (InputMismatchException e) {
+                view.displayMessage("Ungültige Eingabe! Bitte geben Sie zwei ganze Zahlen ein.");
+                scanner.nextLine(); // Fehlerhafte Eingabe verwerfen
+            } catch (IllegalArgumentException e) {
+                view.displayMessage(e.getMessage());
+            }
+        }
+    }
+
 
     private void propagateRewards(double finalReward) {
         double reward = finalReward;

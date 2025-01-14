@@ -17,8 +17,9 @@ public class GameView {
         char[][] grid = board.getBoard();
         for (int i = 0; i < 3; i++) {
             System.out.println(grid[i][0] + "|" + grid[i][1] + "|" + grid[i][2]);
-            if (i < 2) System.out.println("-----"); // Trennlinie zwischen den Reihen
+//            if (i < 2) System.out.println("-----"); // Trennlinie zwischen den Reihen
         }
+        System.out.println("\n");
     }
 
     /**

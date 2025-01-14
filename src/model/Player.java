@@ -1,9 +1,10 @@
 package model;
 
-/**
- * Repräsentiert einen Spieler im Tic Tac Toe Spiel.
- */
+
+//  Repräsentiert einen Spieler im Tic Tac Toe Spiel.
+
 public class Player {
+
     private String name; // Name des Spielers
     private char symbol; // Symbol des Spielers ('X' oder 'O')
 
