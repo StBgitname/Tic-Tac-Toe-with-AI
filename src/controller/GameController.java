@@ -48,7 +48,7 @@ public class GameController {
         view.displayBoard(board);
 
         while (true) {
-//            view.displayBoard(board);
+
             if (currentPlayer == humanPlayer) {
                 // Menschlicher Spieler macht einen Zug.
                 int[] zug = playerInput(scanner, view);
@@ -59,7 +59,6 @@ public class GameController {
                     view.displayBoard(board);
                     if (board.checkWin(currentPlayer.getSymbol())) {
                         propagateRewards(-1.0);  // negative Belohnung
-//                        view.displayBoard(board);
                         view.displayMessage("Herzlichen Glückwunsch, du hast gewonnen!");
                         break;
                     }
